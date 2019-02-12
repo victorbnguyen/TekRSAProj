@@ -1,0 +1,59 @@
+import random
+import numpy as np
+
+
+# Class that takes in the minimum/maximum reference levels, start/end frequencies,
+# x resolution, y resolution, x data, y data, and creates the spectrum plot
+class CreateGraph:
+    import matplotlib.pyplot as plt
+    def __init__(self, minRef, maxRef, startF, endF, xResolution, yResolution, xdata, ydata):
+        self.minRefLev = minRef
+        self.maxRefLev = maxRef
+        self.startFreq = startF
+        self.endFreq = endF
+        self.xRes = xResolution
+        self.yRes = yResolution
+        self.plotArray = np.array([xdata, ydata])
+        self.PlotSpectrum()
+
+    # Plotting fake spectrum data
+    def PlotSpectrum(self):
+        # Changes the plot to plot the new data
+        if self.plt.figure(1) is not None:
+            self.plt.clf()
+            self.lines = self.plt.plot(self.plotArray[0], self.plotArray[1])
+            self.plt.setp(self.lines, color='g')
+            self.plt.axis([self.startFreq, self.endFreq, self.minRefLev, self.maxRefLev])
+
+            # Creates the tick marks but doesn't fill well in the axis
+            # plt.xticks(np.arange(startFreq,endFreq+1,xres))
+            # plt.yticks(np.arange(minRefLev,maxRefLev+1,yres))
+
+            self.plt.ylabel('Power Level')
+            self.plt.xlabel('Frequency (Hz)')
+            self.plt.title('Spectrum')
+            self.plt.show(block=False)
+        # Creates a plot if none exists
+        else:
+            self.plt.figure(figsize=(13, 5))
+            self.lines = self.plt.plot(self.plotArray[0], self.plotArray[1])
+            self.plt.setp(self.lines, color='g')
+            self.plt.axis([self.startFreq, self.endFreq, self.minRefLev, self.maxRefLev])
+            # plt.xticks(np.arange(startFreq,endFreq+1,xres))
+            # plt.yticks(np.arange(minRefLev,maxRefLev+1,yres))
+            self.plt.ylabel('Power Level')
+            self.plt.xlabel('Frequency (Hz)')
+            self.plt.title('Spectrum')
+            self.plt.show(block=False)
+
+# Used to create numbers to graph
+def RandomSpectrum(startFreq, endFreq, xres, flat):
+    x = []
+    y = []
+    for i in range(int(startFreq), int(endFreq), int(xres)):
+        x.append(i)
+        if flat is not None:
+            y.append(flat)
+        else:
+            y.append(random.randint(-9,28))
+    return x, y
